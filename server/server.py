@@ -17,11 +17,11 @@ cron.start()
 
 @cron.interval_schedule(hours=1)
 def cleanup_wavs():
-    """Delete wavs older than 5 minutes."""
+    """Delete wavs older than 50 minutes."""
     files = os.listdir(WAV_DIR)
     for filename in files:
         timestamp = int(filename.split('.')[0])
-        if time.time() - timestamp > 60 * 5:
+        if time.time() - timestamp > 60 * 50:
             os.remove(os.path.join(WAV_DIR, filename))
 
 
@@ -82,7 +82,7 @@ def create_music():
 
 
 @app.route('/wavs/<path:path>')
-def send_js(path):
+def send_wav(path):
     return send_from_directory(WAV_DIR, path)
 
 
