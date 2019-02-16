@@ -40,4 +40,5 @@ https://medium.freecodecamp.org/how-to-build-a-web-application-using-flask-and-d
 -   [x] get the urls to compare
 -   [x] create mp3 server route
 -   [ ] call chuck generate
+-   [ ] mp3 management
 -   [x] gunicorn
