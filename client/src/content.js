@@ -8,16 +8,56 @@
  * everytime a webpage loads over HTTP or HTTPS.
  */
 
+if(document.readyState === 'interactive') {
+    // good to go!
+    console.log("starting extension...");
+    var currentURL = {url:window.location.href};
+    console.log(currentURL);
 
-var currentURL = window.location.href;
+    /*
+    var xhr = new XMLHttpRequest();
+    //xhr.onreadystatechange = handleStateChange; // Implemented elsewhere.
+    xhr.open("POST", chrome.extension.getURL('/config_resources/config.json'), true);
+    xhr.send();
+    */
+
+    /*
+    $.ajax({
+        type: "POST",
+        url: "http://104.40.74.37:5000/create_music/",
+        success: playFile,
+        contentType: "application/json",
+        data: JSON.stringify(currentURL)
+    });
+    */
+    chrome.runtime.sendMessage({
+        method: 'POST',
+        action: 'xhttp',
+        url: 'http://104.40.74.37:5000/create_music/',
+        data: JSON.stringify(currentURL)
+    }, function(audio) {
+        playAudio(audio);
+        /*Callback function to deal with the response*/
+    });
 
 
+    //$.post("https://104.40.74.37:5000/create_music/", JSON.stringify(currentURL), playFile);
+    //console.log(status);
+
+}
+
+function playAudio(filename, status, jqxhr_object) {
+    console.log(status);
+    console.log(filename);
+    var audio = new Audio("http://104.40.74.37:5000/wavs/" + filename);
+    audio.load();
+    audio.play();
+}
+/*
 $("button").click(function(){
-  $.post("http://104.40.74.37:5000/create_music/", currentURL, function(data, status){
-    alert("Data: " + data + "\nStatus: " + status);
-  });
-});
-
+        $.post("http://104.40.74.37:5000/create_music/", currentURL, playFile(data, status));
+    });
+*/
 //TODO
 //finish post command
 //figure out audio
