@@ -5,8 +5,8 @@ import subprocess
 import time
 
 from adcount import count_ads, get_urls_to_check
-from apscheduler.scheduler import Scheduler
-from flask import Flask, request, send_file
+from apscheduler.scheduler import Scheduler  # TODO fix import
+from flask import Flask, request, send_file, send_from_directory
 
 WAV_DIR = 'wavs'
 app = Flask(__name__)
@@ -15,7 +15,7 @@ cron = Scheduler(daemon=True)
 cron.start()
 
 
-@cron.interval_schedule(minutes=10)
+@cron.interval_schedule(hours=1)
 def cleanup_wavs():
     """Delete wavs older than 5 minutes."""
     files = os.listdir(WAV_DIR)
@@ -66,15 +66,24 @@ def create_music():
         'count': int  number of ads on page
     }
     """
+    print request.data
     content = request.get_json(silent=True)
-    if 'urls' in content:
+    if 'url' in content:
+        urls_to_check = get_urls_to_check(content['url'])
+        count = count_ads(urls_to_check)
+    elif 'urls' in content:
         count = count_ads(content['urls'])
     else:
         count = content['count']
-
     filename = os.path.join(WAV_DIR, str(time.time()) + '.wav')
     subprocess.call(['chuck', 'chuck/test:'+filename, '--silent'])
-    return send_file(filename, mimetype='audio/wav')
+    return filename
+    # return send_file(filename, mimetype='audio/wav', as_attachment=True)
+
+
+@app.route('/wavs/<path:path>')
+def send_js(path):
+    return send_from_directory(WAV_DIR, path)
 
 
 # Shutdown your cron thread if the web process is stopped

@@ -1,4 +1,4 @@
-APScheduler==3.5.3
+APScheduler==2.1.2
 BeautifulSoup==3.2.1
 Click==7.0
 Flask==1.0.2
