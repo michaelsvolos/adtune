@@ -1,9 +1,10 @@
 '''This file contains code for matching urls to a list of domains
 known to host ads as provided by https://easylist.to/
 '''
-from BeautifulSoup import BeautifulSoup
-import urllib2
 import re
+import urllib2
+
+from BeautifulSoup import BeautifulSoup
 
 DOMAINS_FILE = 'easylist.txt'
 with open(DOMAINS_FILE) as f:
