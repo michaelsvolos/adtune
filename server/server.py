@@ -5,12 +5,12 @@ import subprocess
 import time
 
 from adcount import count_ads, get_urls_to_check
-from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.scheduler import Scheduler  # TODO fix import
 from flask import Flask, request, send_file
 
 WAV_DIR = 'wavs'
 app = Flask(__name__)
-cron = BackgroundScheduler(daemon=True)
+cron = Scheduler(daemon=True)
 # Explicitly kick off the background thread
 cron.start()
 
