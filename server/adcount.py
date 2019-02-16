@@ -35,6 +35,9 @@ def count_ads(urls_to_check):
     count = 0
     for u in urls_to_check:
         for d in domains:
-            if d in u:  # check if domain is substring of url
-                count += 1
+            try:
+                if d in u:  # check if domain is substring of url
+                    count += 1
+            except UnicodeDecodeError:
+                pass
     return count
