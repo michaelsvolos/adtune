@@ -21,7 +21,7 @@ if(document.readyState === 'interactive') {
     xhr.send();
     */
 
-    
+    /*
     $.ajax({
         type: "POST",
         url: "http://104.40.74.37:5000/create_music/",
@@ -29,14 +29,24 @@ if(document.readyState === 'interactive') {
         contentType: "application/json",
         data: JSON.stringify(currentURL)
     });
-    
+    */
+    chrome.runtime.sendMessage({
+        method: 'POST',
+        action: 'xhttp',
+        url: 'http://104.40.74.37:5000/create_music/',
+        data: JSON.stringify(currentURL)
+    }, function(audio) {
+        playAudio(audio);
+        /*Callback function to deal with the response*/
+    });
 
 
     //$.post("https://104.40.74.37:5000/create_music/", JSON.stringify(currentURL), playFile);
     //console.log(status);
 
-}
+}   
 
+/*
 function playFile(filename, status, jqxhr_object) {
     console.log(status);
     console.log(filename);
@@ -44,6 +54,7 @@ function playFile(filename, status, jqxhr_object) {
     audio.load();
     audio.play();
 }
+*/
 /*
 $("button").click(function(){
         $.post("http://104.40.74.37:5000/create_music/", currentURL, playFile(data, status));
