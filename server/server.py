@@ -53,7 +53,7 @@ def create_music():
         count = count_ads(content['urls'])
     else:
         count = content['count']
-    subprocess.call(['chuck', 'chuck/test:wavs/bar.wav', '--silent')
+    subprocess.call(['chuck', 'chuck/test:wavs/bar.wav', '--silent'])
     return send_file(filename, mimetype='audio/wav')
 
 
