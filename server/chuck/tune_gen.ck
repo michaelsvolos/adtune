@@ -1,16 +1,17 @@
 me.arg(0) => string filename;
 Std.atoi(me.arg(1)) => int COUNT;
-if (COUNT == 1000000) 14 => count;
+if (COUNT == 1000000) 14 => COUNT;
 if (COUNT > 24) 24 => COUNT;
 Gain out;
-<<< COUNT >>>;
 
-/*
+
+
 out => WvOut2 wv => blackhole;
 wv.wavFilename(filename);
-*/
 
-out => dac; //for testing
+<<< "file opened" >>>;
+
+//out => dac; //for testing
 
 //put tune code below
 
@@ -55,7 +56,6 @@ fun void offsetChange() {
 			if (offset < -8) -8 => offset;
 			if (offset > 8) 8 => offset;
 			b.setFreq(Std.mtof(40 + offset + bassOct));
-			<<< "change" >>>;
 		}
 	}
 }
@@ -67,8 +67,8 @@ fun void pads() {
 	while (true) {
 		if (Math.randomf() > 0.1) {
 			if (COUNT > 4) {
-				p.setFreq(Std.mtof(scale_oct[Math.random2( 0, scale_oct.cap()  - 1 )] + offset));
-			} else p.setFreq(Std.mtof(scale_nice[Math.random2( 0, scale_nice.cap()  - 1 )] + offset));
+				p.setFreq(Std.mtof(scale_oct[Math.random2( 0, scale_oct.cap() - 1 )] + offset));
+			} else p.setFreq(Std.mtof(scale_nice[Math.random2( 0, scale_nice.cap() - 1 )] + offset));
 			spork ~p.play(BEAT * 3 / 4);
 		}
 		BEAT => now;
@@ -76,7 +76,7 @@ fun void pads() {
 }
 
 class Bass {
-	TriOsc s => LPF l => Chorus c => ADSR adsr => NRev n => out;
+	TriOsc s => LPF l => Chorus c => ADSR adsr => out;
 	TriOsc t => l;
 	//t.freq(37.5);
 	t.gain(0.1);
@@ -86,7 +86,7 @@ class Bass {
 	c.mix(0.3);
 	//s.freq(75);
 	l.freq(250);
-	n.mix(0.01);
+	//n.mix(0.01);
 	10::ms => dur decay;
 
 	0.3 + COUNT / 20 => float lfoRate;
@@ -110,7 +110,7 @@ class Bass {
 	fun void play(float freque, dur duration) { //also sets freq
 		freque => freq;
 		s.freq(freq);
-		t.freq(freq / 2);
+		t.freq(freq * 0.03);
 		adsr.keyOn();
 		now + duration - decay => time stop;
 		while (now < stop) {
@@ -124,7 +124,7 @@ class Bass {
 }
 
 class Pad {
-	SawOsc s => Chorus c => Chorus d => Pan2 p1 => LPF l => Envelope e => NRev n => out;
+	SawOsc s => Chorus c => Chorus d => Pan2 p1 => LPF l => Envelope e => NRev n => Pan2 pan => out;
 	TriOsc t => Chorus f => Pan2 p2 => l;
 
 	0.75::second => dur envDur;
@@ -161,7 +161,7 @@ class Pad {
 	}
 
 	fun void play(dur duration) {
-		
+		pan.pan(Math.random2f( -0.3, 0.3 ));
         now + envDur => time stop;
         e.keyOn();
         while (now < stop) {
@@ -180,6 +180,6 @@ class Pad {
     }
 }
 
-
-
-//wv.closeFile(filename);
+<<< "write successful, closing file..." >>>;
+wv.closeFile(filename);
+<<< "file closed" >>>;
