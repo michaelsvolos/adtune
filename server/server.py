@@ -36,7 +36,7 @@ def count_ads_route():
     else:
         urls_to_check = get_urls_to_check(content['url'])
     count = count_ads(urls_to_check)
-    return count
+    return str(count)
 
 
 @app.route("/create_music/", methods=['POST'])
@@ -54,7 +54,7 @@ def create_music():
     else:
         count = content['count']
     subprocess.call(['chuck', 'chuck/test:wavs/bar.wav', '--silent'])
-    return send_file(filename, mimetype='audio/wav')
+    return send_file('wavs/bar.wav', mimetype='audio/wav')
 
 
 if __name__ == "__main__":
