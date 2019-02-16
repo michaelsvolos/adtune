@@ -7,6 +7,7 @@ import time
 from adcount import count_ads, get_urls_to_check
 from apscheduler.scheduler import Scheduler  # TODO fix import
 from flask import Flask, request, send_file, send_from_directory
+from urllib2 import URLError
 
 WAV_DIR = 'wavs'
 app = Flask(__name__)
@@ -69,8 +70,11 @@ def create_music():
     print request.data
     content = request.get_json(silent=True)
     if 'url' in content:
-        urls_to_check = get_urls_to_check(content['url'])
-        count = count_ads(urls_to_check)
+        try:
+            urls_to_check = get_urls_to_check(content['url'])
+            count = count_ads(urls_to_check)
+        except URLError:
+            count = 100000000
     elif 'urls' in content:
         count = count_ads(content['urls'])
     else:
