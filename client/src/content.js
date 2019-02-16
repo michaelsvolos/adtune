@@ -44,17 +44,15 @@ if(document.readyState === 'interactive') {
     //$.post("https://104.40.74.37:5000/create_music/", JSON.stringify(currentURL), playFile);
     //console.log(status);
 
-}   
+}
 
-/*
-function playFile(filename, status, jqxhr_object) {
+function playAudio(filename, status, jqxhr_object) {
     console.log(status);
     console.log(filename);
     var audio = new Audio("http://104.40.74.37:5000/wavs/" + filename);
     audio.load();
     audio.play();
 }
-*/
 /*
 $("button").click(function(){
         $.post("http://104.40.74.37:5000/create_music/", currentURL, playFile(data, status));

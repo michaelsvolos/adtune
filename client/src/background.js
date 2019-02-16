@@ -4,6 +4,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
         var method = request.method ? request.method.toUpperCase() : 'POST';
 
         xhttp.onload = function() {
+            console.log(xhttp.responseText);
             callback(xhttp.responseText);
         };
         xhttp.onerror = function() {
@@ -13,7 +14,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
         };
         xhttp.open(method, request.url, true);
         if (method == 'POST') {
-            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhttp.setRequestHeader('Content-Type', 'application/json');
         }
         xhttp.send(request.data);
         return true; // prevents the callback from being called too early on return
