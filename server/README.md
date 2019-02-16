@@ -31,8 +31,8 @@ python server.py --prod
 https://medium.freecodecamp.org/how-to-build-a-web-application-using-flask-and-deploy-it-to-the-cloud-3551c985e492
 
 ## TODO
--   [ ] create count server route
--   [ ] get the urls to compare
--   [ ] create mp3 server route
+-   [x] create count server route
+-   [x] get the urls to compare
+-   [x] create mp3 server route
 -   [ ] call chuck generate
--   [ ] gunicorn
+-   [x] gunicorn

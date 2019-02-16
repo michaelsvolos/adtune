@@ -1,8 +1,8 @@
 import argparse
 import subprocess
 
-from adcount import count_ads
-from flask import Flask
+from adcount import count_ads, get_urls_to_check
+from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -19,17 +19,39 @@ def home():
     return "Hello, World!"
 
 
-@app.route("/count_ads/")  # TODO add args
+@app.route("/count_ads/", methods=['POST'])
 def count_ads_route():
-    """Server route for returning number of ads on page."""
-    urls_to_check = None  # TODO get this value
+    """Server route for returning number of ads on page.
+
+    Payload: {
+        'urls': [string]  a list of urls on a webpage
+        OR
+        'url': string   a url to check number of ads on
+    }
+    """
+    content = request.get_json(silent=True)
+    if 'urls' in content:
+        urls_to_check = content['urls']
+    else:
+        urls_to_check = get_urls_to_check(content['url'])
     count = count_ads(urls_to_check)
-    return None  # TODO set return payload
+    return count
 
 
-@app.rote("/create_music/")  # TODO add args
+@app.route("/create_music/")
 def create_music():
-    """Create subprocess to render chuck mp3 and serve it"""
+    """Create subprocess to render chuck mp3 and serve it
+    Payload: {
+        'urls': [string]  a list of urls on a webpage
+        OR
+        'count': int  number of ads on page
+    }
+    """
+    content = request.get_json(silent=True)
+    if 'urls' in content:
+        count = count_ads(content['urls'])
+    else:
+        count = content['count']
     subprocess.call(["ls", "-l"])  # TODO configure command
     return None  # TODO return generated file
 
