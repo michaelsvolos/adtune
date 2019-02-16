@@ -2,12 +2,13 @@ import argparse
 import subprocess
 
 from adcount import count_ads, get_urls_to_check
-from flask import Flask, request
+from flask import Flask, request, send_file
 
 app = Flask(__name__)
 
 
 def get_args():
+    '''Get args'''
     parser = argparse.ArgumentParser()
     parser.add_argument('--prod', action='store_true')
     return parser.parse_args()
@@ -38,7 +39,7 @@ def count_ads_route():
     return count
 
 
-@app.route("/create_music/")
+@app.route("/create_music/", methods=['POST'])
 def create_music():
     """Create subprocess to render chuck mp3 and serve it
     Payload: {
@@ -52,8 +53,8 @@ def create_music():
         count = count_ads(content['urls'])
     else:
         count = content['count']
-    subprocess.call(["ls", "-l"])  # TODO configure command
-    return None  # TODO return generated file
+    subprocess.call(['chuck', 'chuck/test:wavs/bar.wav', '--silent')
+    return send_file(filename, mimetype='audio/wav')
 
 
 if __name__ == "__main__":
