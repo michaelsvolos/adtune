@@ -74,7 +74,7 @@ def create_music():
 
     filename = os.path.join(WAV_DIR, str(time.time()) + '.wav')
     subprocess.call(['chuck', 'chuck/test:'+filename, '--silent'])
-    return send_file(filename, mimetype='audio/wav')
+    return send_file(filename, mimetype='audio/wav', as_attachment=True)
 
 
 # Shutdown your cron thread if the web process is stopped
