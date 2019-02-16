@@ -1,7 +1,15 @@
+import argparse
+
 from flask import Flask
 from adcount import count_ads
 
 app = Flask(__name__)
+
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--prod', action='store_true')
+    return parser.parse_args()
 
 
 @app.route("/")
@@ -19,4 +27,8 @@ def count_ads_route():
 
 
 if __name__ == "__main__":
-    app.run(host= '0.0.0.0', debug=True)
+    args = get_args()
+    if args.prod:
+        app.run(host='0.0.0.0', port=80)
+    else:
+        app.run(host='0.0.0.0', debug=True)

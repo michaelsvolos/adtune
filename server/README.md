@@ -17,8 +17,14 @@ pip install -r requirements.txt
 ```
 
 # Running
+For local:
 ```
 python server.py
+```
+
+For production:
+```
+python server.py --prod
 ```
 
 ## Flask
@@ -29,3 +35,4 @@ https://medium.freecodecamp.org/how-to-build-a-web-application-using-flask-and-d
 -   [ ] get the urls to compare
 -   [ ] create mp3 server route
 -   [ ] call chuck generate
+-   [ ] gunicorn
