@@ -66,8 +66,12 @@ def create_music():
         'count': int  number of ads on page
     }
     """
+    print request.data
     content = request.get_json(silent=True)
-    if 'urls' in content:
+    if 'url' in content:
+	urls_to_check = get_urls_to_check(content['url'])
+	count = count_ads(urls_to_check)
+    elif 'urls' in content:
         count = count_ads(content['urls'])
     else:
         count = content['count']
