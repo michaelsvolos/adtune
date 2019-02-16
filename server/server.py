@@ -75,8 +75,8 @@ def create_music():
         count = count_ads(content['urls'])
     else:
         count = content['count']
-    filename = os.path.join(WAV_DIR, str(time.time()) + '.wav')
-    subprocess.call(['chuck', 'chuck/test:'+filename, '--silent'])
+    filename = str(time.time()) + '.wav'
+    subprocess.call(['chuck', 'chuck/test:'+os.path.join(WAV_DIR, filename), '--silent'])
     return filename
     # return send_file(filename, mimetype='audio/wav', as_attachment=True)
 
