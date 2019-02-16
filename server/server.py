@@ -29,6 +29,6 @@ def count_ads_route():
 if __name__ == "__main__":
     args = get_args()
     if args.prod:
-        app.run(host='0.0.0.0', port=80)
+        app.run(host='0.0.0.0')
     else:
         app.run(host='0.0.0.0', debug=True)
