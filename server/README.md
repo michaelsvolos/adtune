@@ -39,5 +39,7 @@ https://medium.freecodecamp.org/how-to-build-a-web-application-using-flask-and-d
 -   [x] create count server route
 -   [x] get the urls to compare
 -   [x] create mp3 server route
--   [ ] call chuck generate
+-   [x] call chuck generate
+-   [ ] fun music
+-   [ ] mp3 management
 -   [x] gunicorn

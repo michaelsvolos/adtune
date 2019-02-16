@@ -1,13 +1,32 @@
 import argparse
+import atexit
+import os
 import subprocess
+import time
 
 from adcount import count_ads, get_urls_to_check
-from flask import Flask, request
+from apscheduler.scheduler import Scheduler
+from flask import Flask, request, send_file
 
+WAV_DIR = 'wavs'
 app = Flask(__name__)
+cron = Scheduler(daemon=True)
+# Explicitly kick off the background thread
+cron.start()
+
+
+@cron.interval_schedule(minutes=10)
+def cleanup_wavs():
+    """Delete wavs older than 5 minutes."""
+    files = os.listdir(WAV_DIR)
+    for filename in files:
+        timestamp = int(filename.split('.')[0])
+        if time.time() - timestamp > 60 * 5:
+            os.remove(os.path.join(WAV_DIR, filename))
 
 
 def get_args():
+    '''Get args'''
     parser = argparse.ArgumentParser()
     parser.add_argument('--prod', action='store_true')
     return parser.parse_args()
@@ -35,10 +54,10 @@ def count_ads_route():
     else:
         urls_to_check = get_urls_to_check(content['url'])
     count = count_ads(urls_to_check)
-    return count
+    return str(count)
 
 
-@app.route("/create_music/")
+@app.route("/create_music/", methods=['POST'])
 def create_music():
     """Create subprocess to render chuck mp3 and serve it
     Payload: {
@@ -52,8 +71,14 @@ def create_music():
         count = count_ads(content['urls'])
     else:
         count = content['count']
-    subprocess.call(["ls", "-l"])  # TODO configure command
-    return None  # TODO return generated file
+
+    filename = os.path.join(WAV_DIR, str(time.time()) + '.wav')
+    subprocess.call(['chuck', 'chuck/test:'+filename, '--silent'])
+    return send_file(filename, mimetype='audio/wav')
+
+
+# Shutdown your cron thread if the web process is stopped
+atexit.register(lambda: cron.shutdown(wait=False))
 
 
 if __name__ == "__main__":
