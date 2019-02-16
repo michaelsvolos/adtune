@@ -1,9 +1,23 @@
 '''This file contains code for matching urls to a list of domains
 known to host ads as provided by https://easylist.to/
 '''
+from BeautifulSoup import BeautifulSoup
+import urllib2
+import re
+
 DOMAINS_FILE = 'easylist.txt'
 with open(DOMAINS_FILE) as f:
     domains = f.read().split('\n')
+
+
+def get_urls_to_check(url):
+    """Given a webpage url, extract urls on it to check for ads"""
+    urls = []
+    html_page = urllib2.urlopen(url)
+    soup = BeautifulSoup(html_page)
+    for link in soup.findAll('a', attrs={'href': re.compile("^http://")}):
+        urls.append(link.get('href'))
+    return urls
 
 
 def count_ads(urls_to_check):
