@@ -1,5 +1,5 @@
 import argparse
-
+import subprocess
 from flask import Flask
 from adcount import count_ads
 
@@ -24,6 +24,13 @@ def count_ads_route():
     urls_to_check = None  # TODO get this value
     count = count_ads(urls_to_check)
     return None  # TODO set return payload
+
+
+@app.rote("/create_music/")  # TODO add args
+def create_music():
+    """Create subprocess to render chuck mp3 and serve it"""
+    subprocess.call(["ls", "-l"])  # TODO configure command
+    return None  # TODO return generated file
 
 
 if __name__ == "__main__":
