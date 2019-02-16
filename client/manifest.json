@@ -11,12 +11,10 @@
  */
 
 {
-  // Required
   "manifest_version": 2,
   "name": "Adtune",
   "version": "0.0.1",
 
-  // Recommended
   "description": "Computer Music for the Big Ads Era",
   "icons": {
     "16": "icons/TreeHacks-white-16.png",
@@ -27,37 +25,27 @@
     "128": "icons/TreeHacks-white-128.png"
   },
 
-  // Optional
   "homepage_url": "https://github.com/michaelsvolos/adtune",
 
-  // Put any additional permissions your applications needs here.
-  // For a list of possibilities, see
-  // https://developer.chrome.com/extensions/declare_permissions
   "permissions": [
-    "storage", // Allows access to chrome.storage API
     "http://104.40.74.37:5000/create_music/"
-],
+  ],
 
-  // Probably will not need to be modified unless you *really*
-  // know what you're doing
   "browser_action": {
     "default_icon": "icons/TreeHacks-white-19.png",
     "default_title": "Adtune",
     "default_popup": "src/popup.html"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "*://*/*"
-      ],
-      "js": [
-        "/src/jquery-3.3.1.js","/src/content.js"
-      ],
-      "run_at": "document_end"
-    }
-  ],
-  "background": [ {
-        "scripts": ["/src/background.js"],
-        "persistent": false
-    }]
+  "content_scripts": [{
+    "matches": [
+      "*://*/*"
+    ],
+    "js": [
+      "/src/jquery-3.3.1.js", "/src/content.js"
+    ]
+  }],
+  "background": {
+    "scripts": ["/src/jquery-3.3.1.js", "/src/background.js"],
+    "persistent": false
+  }
 }

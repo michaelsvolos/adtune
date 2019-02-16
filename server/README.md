@@ -43,5 +43,6 @@ https://medium.freecodecamp.org/how-to-build-a-web-application-using-flask-and-d
 -   [ ] fun music
 -   [ ] send filename? https://stackoverflow.com/questions/41543951/how-to-change-downloading-name-in-flask
 -   [ ] get static ip
+-   [ ] handle shit like reddit
 -   [x] mp3 management
 -   [x] gunicorn

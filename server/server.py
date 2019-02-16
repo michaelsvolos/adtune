@@ -5,8 +5,9 @@ import subprocess
 import time
 
 from adcount import count_ads, get_urls_to_check
-from apscheduler.scheduler import Scheduler  # TODO fix import
+from apscheduler.scheduler import Scheduler
 from flask import Flask, request, send_file, send_from_directory
+from urllib2 import URLError
 
 WAV_DIR = 'wavs'
 app = Flask(__name__)
@@ -17,11 +18,11 @@ cron.start()
 
 @cron.interval_schedule(hours=1)
 def cleanup_wavs():
-    """Delete wavs older than 5 minutes."""
+    """Delete wavs older than 50 minutes."""
     files = os.listdir(WAV_DIR)
     for filename in files:
         timestamp = int(filename.split('.')[0])
-        if time.time() - timestamp > 60 * 5:
+        if time.time() - timestamp > 60 * 50:
             os.remove(os.path.join(WAV_DIR, filename))
 
 
@@ -52,8 +53,11 @@ def count_ads_route():
     if 'urls' in content:
         urls_to_check = content['urls']
     else:
-        urls_to_check = get_urls_to_check(content['url'])
-    count = count_ads(urls_to_check)
+	try:
+            urls_to_check = get_urls_to_check(content['url'])
+            count = count_ads(urls_to_check)
+        except URLError:
+	    count = 1000000
     return str(count)
 
 
@@ -69,20 +73,23 @@ def create_music():
     print request.data
     content = request.get_json(silent=True)
     if 'url' in content:
-        urls_to_check = get_urls_to_check(content['url'])
-        count = count_ads(urls_to_check)
+        try:
+            urls_to_check = get_urls_to_check(content['url'])
+            count = count_ads(urls_to_check)
+        except URLError:
+            count = 100000000
     elif 'urls' in content:
         count = count_ads(content['urls'])
     else:
         count = content['count']
-    filename = os.path.join(WAV_DIR, str(time.time()) + '.wav')
-    subprocess.call(['chuck', 'chuck/tune_gen.ck:'+filename+':'+count, '--silent'])
+    filename = str(time.time()) + '.wav'
+    subprocess.call(['chuck', 'chuck/test:'+os.path.join(WAV_DIR, filename)+':'+str(count), '--silent'])
     return filename
     # return send_file(filename, mimetype='audio/wav', as_attachment=True)
 
 
 @app.route('/wavs/<path:path>')
-def send_js(path):
+def send_wav(path):
     return send_from_directory(WAV_DIR, path)
 
 
