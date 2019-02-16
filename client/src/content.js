@@ -8,8 +8,22 @@
  * everytime a webpage loads over HTTP or HTTPS.
  */
 
-var elements = document.getElementsByTagName('*');
 
+var currentURL = window.location.href;
+
+
+$("button").click(function(){
+  $.post("http://104.40.74.37:5000/create_music/", currentURL, function(data, status){
+    alert("Data: " + data + "\nStatus: " + status);
+  });
+});
+
+//TODO
+//finish post command
+//figure out audio
+
+
+/*
 for (var i = 0; i < elements.length; i++) {
     var element = elements[i];
 
@@ -26,3 +40,4 @@ for (var i = 0; i < elements.length; i++) {
         }
     }
 }
+*/
