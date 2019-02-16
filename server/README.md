@@ -22,9 +22,14 @@ For local:
 python server.py
 ```
 
-For production:
+For remote dev:
 ```
 python server.py --prod
+```
+
+For prodduction:
+```
+sh start.sh
 ```
 
 ## Flask
