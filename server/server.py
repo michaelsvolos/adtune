@@ -5,7 +5,7 @@ import subprocess
 import time
 
 from adcount import count_ads, get_urls_to_check
-from apscheduler.scheduler import Scheduler  # TODO fix import
+from apscheduler.scheduler import Scheduler
 from flask import Flask, request, send_file, send_from_directory
 from urllib2 import URLError
 
@@ -53,8 +53,11 @@ def count_ads_route():
     if 'urls' in content:
         urls_to_check = content['urls']
     else:
-        urls_to_check = get_urls_to_check(content['url'])
-    count = count_ads(urls_to_check)
+	try:
+            urls_to_check = get_urls_to_check(content['url'])
+            count = count_ads(urls_to_check)
+        except URLError:
+	    count = 1000000
     return str(count)
 
 
@@ -79,8 +82,8 @@ def create_music():
         count = count_ads(content['urls'])
     else:
         count = content['count']
-    filename = os.path.join(WAV_DIR, str(time.time()) + '.wav')
-    subprocess.call(['chuck', 'chuck/test:'+filename, '--silent'])
+    filename = str(time.time()) + '.wav'
+    subprocess.call(['chuck', 'chuck/test:'+os.path.join(WAV_DIR, filename)+':'+str(count), '--silent'])
     return filename
     # return send_file(filename, mimetype='audio/wav', as_attachment=True)
 
