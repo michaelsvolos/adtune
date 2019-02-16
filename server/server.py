@@ -76,7 +76,7 @@ def create_music():
     else:
         count = content['count']
     filename = os.path.join(WAV_DIR, str(time.time()) + '.wav')
-    subprocess.call(['chuck', 'chuck/test:'+filename, '--silent'])
+    subprocess.call(['chuck', 'chuck/tune_gen.ck:'+filename+':'+count, '--silent'])
     return filename
     # return send_file(filename, mimetype='audio/wav', as_attachment=True)
 
