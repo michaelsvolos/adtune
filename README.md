@@ -1,1 +1,1 @@
-# adtune
+# Adtune - a computer music-mediated reminder of just how many ads are out there
