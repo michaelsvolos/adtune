@@ -49,7 +49,6 @@ function play(filename, loop) {
     if (loop) {
       audio.addEventListener('ended', function() {
         this.currentTime = 0;
-        console.log(stopPlaying, volume);
         if (!stopPlaying) {
           this.play();
         }

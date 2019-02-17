@@ -5,6 +5,8 @@ This repo holds code for a `flask` server that:
 1.  counts number of ads on a webpage
 2.  serves an mp3 to the client
 
+NOTE: see the main README for details on ChucK.
+
 # Setup
 1.  create and activate `virtualenv`
 ```
@@ -34,15 +36,3 @@ sh start.sh
 
 ## Flask
 https://medium.freecodecamp.org/how-to-build-a-web-application-using-flask-and-deploy-it-to-the-cloud-3551c985e492
-
-## TODO
--   [x] create count server route
--   [x] get the urls to compare
--   [x] create mp3 server route
--   [x] call chuck generate
--   [ ] fun music
--   [ ] send filename? https://stackoverflow.com/questions/41543951/how-to-change-downloading-name-in-flask
--   [ ] get static ip
--   [ ] handle shit like reddit
--   [x] mp3 management
--   [x] gunicorn
