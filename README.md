@@ -1,5 +1,7 @@
 # Adtune - a computer music-mediated reminder of just how many ads are out there
 
+![icon](client/icons/icon.png)
+
 <!-- pitch -->
 
 Adtune consists of a client chrome extension and a server written in Python/Flask.
@@ -23,7 +25,7 @@ See subdirectory READMEs for setup instructions.
 ## How it works
 
 We use server-side text-matching with known ad hosts as provided
-by https://easylist.to/ to count the number of ads on a webpage.  
+by [easylist](https://easylist.to/) to count the number of ads on a webpage.  
 
 Based on this count, the server executes `ChucK` to create a `.wav` that
 can be served as a static resource.  
@@ -36,6 +38,15 @@ policies (TODO link).
 The popup window of the chrome extension provides play/pause and volume control for this track.
 
 ## Examples
+
+![adtune UI with 3 ads](images/example_3.png)
+[Audio file](https://drive.google.com/open?id=1dxAQ8idoHkLYgKIa6Qf5fTVEQtEBySUC)
+
+![adtune UI with 15 ads](images/example_147.png)
+[Audio file](https://drive.google.com/open?id=1NLQhRHbhmR-YNxb4pCTq2BKA5S9v4qqQ)
+
+![adtune UI with 147 ads](images/example_147.png)
+[Audio file](https://drive.google.com/open?id=1rG3sXzjEf0jMUc9PV8wvsnVcQnZf-0XK)
 
 ## Challenges
 
@@ -52,3 +63,10 @@ It's a bit slow.
 ### Controlling the audio track
 
 We wanted the music to play regardless of whether our extension was opened.  Therefore, we had to inject the audio track into the webpage.  This caused different challenges in our ability to keep the extension popup's application state in sync with the injected content.
+
+
+### Cross-Domain HTTP/HTTPS Requests
+
+For now, the server runs on HTTP.  Sometimes, websites don't allow mixed-content requests (using HTTP from an HTTPS webpage).  
+
+Some websites also don't allow web-crawling.  We use `urllib2` and `BeautifulSoup` on the server to get all the links on a webpage, and for these websites, this fails.
