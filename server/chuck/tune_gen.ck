@@ -330,7 +330,7 @@ class Snare {
 
 class Hat {
     Shakers s => NRev n => Pan2 pan => dac;
-    s.gain(0.4`);
+    s.gain(0.4);
     n.mix(0.025);
     s.preset(11);
     s.energy(1.0);
