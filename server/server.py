@@ -53,11 +53,11 @@ def count_ads_route():
     if 'urls' in content:
         urls_to_check = content['urls']
     else:
-	try:
+        try:
             urls_to_check = get_urls_to_check(content['url'])
             count = count_ads(urls_to_check)
         except URLError:
-	    count = 1000000
+            count = 1000000
     return str(count)
 
 
@@ -83,7 +83,11 @@ def create_music():
     else:
         count = content['count']
     filename = str(time.time()) + '.wav'
-    subprocess.call(['chuck', 'chuck/test:'+os.path.join(WAV_DIR, filename)+':'+str(count), '--silent'])
+    subprocess.call([
+        'chuck',
+        'chuck/tune_gen:' + os.path.join(WAV_DIR, filename) + ':' + str(count),
+        '--silent'
+    ])
     return jsonify(filename=filename, count=count)
     # return send_file(filename, mimetype='audio/wav', as_attachment=True)
 
@@ -95,7 +99,6 @@ def send_wav(path):
 
 # Shutdown your cron thread if the web process is stopped
 atexit.register(lambda: cron.shutdown(wait=False))
-
 
 if __name__ == "__main__":
     args = get_args()
