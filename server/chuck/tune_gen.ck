@@ -3,7 +3,7 @@ Std.atoi(me.arg(1)) => int COUNT;
 if (COUNT == 1000000) 14 => COUNT;
 if (COUNT > 24) 24 => COUNT;
 Gain out;
-
+out.gain(0.5);
 
 
 out => WvOut2 wv => blackhole;
@@ -97,7 +97,7 @@ spork ~drums();
 now + 5::second => time stop;
 while (now < stop) {
 	(stop - now) / 5::second => float interp;
-	out.gain(interp);
+	out.gain(interp / 2);
 	10::ms => now;
 }
 
