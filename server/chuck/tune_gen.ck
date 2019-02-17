@@ -267,8 +267,8 @@ class Pad {
 }
 
 class BD {
-    SinOsc s => Envelope e => dac;
-    Noise no => LPF l => Envelope f => dac;;
+    SinOsc s => Envelope e => out;
+    Noise no => LPF l => Envelope f => out;;
     l.freq(2500);
     no.gain(0.12);
     f.duration(5::ms);
@@ -309,7 +309,7 @@ class BD {
 }
 
 class Snare {
-	Noise no => BPF b => ADSR adsr => NRev n => dac;
+	Noise no => BPF b => ADSR adsr => NRev n => out;
 	SinOsc t => adsr;
 	b.freq(200);
 	b.Q(0.3);
@@ -329,7 +329,7 @@ class Snare {
 }
 
 class Hat {
-    Shakers s => NRev n => Pan2 pan => dac;
+    Shakers s => NRev n => Pan2 pan => out;
     s.gain(0.4);
     n.mix(0.025);
     s.preset(11);
