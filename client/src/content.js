@@ -2,6 +2,7 @@ var audioUrl = null;
 var stopPlaying = false;
 var volume = 1.0;
 var audio = null;
+var adCount = 0;
 
 $(window).on('load', function() {
   var currentURL = {
@@ -13,11 +14,11 @@ $(window).on('load', function() {
     action: 'xhttp',
     url: 'http://104.40.74.37:5000/create_music/',
     data: JSON.stringify(currentURL)
-  }, function(audioUrl, status) {
-
+  }, function(data, status) {
+    adCount = data.count;
     $(window).click(function() {
       if (!audio) {
-        play(audioUrl, true);
+        play(data.filename, true);
       }
     });
   });
@@ -61,7 +62,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
       console.log('playing');
     }
   }
-  callback({isPlaying: !stopPlaying,
-            volume: volume * 10});
+  callback({
+    isPlaying: !stopPlaying,
+    volume: volume * 10,
+    adCount: adCount
+  });
   return true;
 });

@@ -2,7 +2,7 @@
 
 
 ## TODOs
--   [ ] play/pause
+-   [x] play/pause
 -   [ ] play once vs play forever
--   [ ] volume
+-   [x] volume
 -   [ ] if we're feelin it: download button

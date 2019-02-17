@@ -1,6 +1,7 @@
 var tabId = null;
 var isPlaying = false;
 var volume = 10;
+var adCount = 0;
 
 chrome.tabs.query({
   currentWindow: true,
@@ -19,6 +20,7 @@ $(document).ready(function() {
     }, function(data) {
       isPlaying = data.isPlaying;
       volume = data.volume;
+      adCount = data.adCount;
     });
 
     return false;
@@ -29,6 +31,7 @@ $(document).ready(function() {
   }, function(data) {
     isPlaying = data.isPlaying;
     volume = data.volume;
+    adCount = data.adCount;
 
     if (isPlaying) {
       btn.toggleClass("paused");
@@ -38,6 +41,9 @@ $(document).ready(function() {
     var volumeLabel = document.getElementById("volume-label");
     slider.value = volume;
     volumeLabel.innerText = volume;
+
+    var adCountLabel = document.getElementById('ad-count');
+    adCountLabel.innerText = 'number of ads on this page: ' + adCount;
   });
 });
 
@@ -53,5 +59,6 @@ slider.oninput = function() {
   }, function(data) {
     isPlaying = data.isPlaying;
     volume = data.volume;
+    adCount = data.adCount;
   });
 };

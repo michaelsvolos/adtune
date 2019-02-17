@@ -6,7 +6,7 @@ import time
 
 from adcount import count_ads, get_urls_to_check
 from apscheduler.scheduler import Scheduler
-from flask import Flask, request, send_file, send_from_directory
+from flask import Flask, request, send_from_directory, jsonify
 from urllib2 import URLError
 
 WAV_DIR = 'wavs'
@@ -84,7 +84,7 @@ def create_music():
         count = content['count']
     filename = str(time.time()) + '.wav'
     subprocess.call(['chuck', 'chuck/test:'+os.path.join(WAV_DIR, filename)+':'+str(count), '--silent'])
-    return filename
+    return jsonify(filename=filename, count=count)
     # return send_file(filename, mimetype='audio/wav', as_attachment=True)
 
 
