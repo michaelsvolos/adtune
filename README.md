@@ -18,7 +18,7 @@ See subdirectory READMEs for setup instructions.
 
 ## ChucK
 
-What is ChucK?  How to install?
+[ChucK](http://chuck.cs.princeton.edu/) is a computer music programming language developed by Ge Wang and Perry Cook. It presents a unique time-based, concurrent programming model for precise control of elapsed time and has many tools for sound synthesis. ChucK users include researchers and computer music composers and performers. Installation details can be found at its homepage, including its IDE, MiniAudicle.
 
 ## How it works
 
