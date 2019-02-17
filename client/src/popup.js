@@ -1,7 +1,7 @@
 var tabId = null;
 var isPlaying = false;
 var volume = 10;
-var adCount = 0;
+var adCount = null;
 
 chrome.tabs.query({
   currentWindow: true,
@@ -13,11 +13,12 @@ chrome.tabs.query({
 $(document).ready(function() {
   var btn = $(".button");
   btn.click(function() {
-    btn.toggleClass("paused");
-
     chrome.tabs.sendMessage(tabId, {
       action: 'playpause',
     }, function(data) {
+      if (isPlaying != data.isPlaying) {
+        btn.toggleClass("paused");
+      }
       isPlaying = data.isPlaying;
       volume = data.volume;
       adCount = data.adCount;
@@ -29,9 +30,11 @@ $(document).ready(function() {
   chrome.tabs.sendMessage(tabId, {
     action: '',
   }, function(data) {
-    isPlaying = data.isPlaying;
-    volume = data.volume;
-    adCount = data.adCount;
+    if (data) {
+      isPlaying = data.isPlaying;
+      volume = data.volume;
+      adCount = data.adCount;
+    }
 
     if (isPlaying) {
       btn.toggleClass("paused");
@@ -43,7 +46,12 @@ $(document).ready(function() {
     volumeLabel.innerText = volume;
 
     var adCountLabel = document.getElementById('ad-count');
-    adCountLabel.innerText = 'number of ads on this page: ' + adCount;
+
+    if (adCount) {
+      adCountLabel.innerText = 'number of ads on this page: ' + adCount;
+    } else {
+      adCountLabel.innerText = 'Interact with the page to load.';
+    }
   });
 });
 

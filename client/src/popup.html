@@ -26,11 +26,16 @@
     cursor: pointer;
     border-style: solid;
     border-width: 37px 0 37px 60px;
+    margin-left: 12px;
   }
 
   .button.paused {
     border-style: double;
     border-width: 0px 0 0px 60px;
+  }
+
+  .button:focus {
+    outline: none;
   }
 
   .button:hover {
@@ -40,9 +45,10 @@
   .controls {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     height: 100%;
+    min-height: 170px;
   }
 
   .slider {

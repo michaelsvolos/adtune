@@ -2,7 +2,7 @@ var audioUrl = null;
 var stopPlaying = false;
 var volume = 1.0;
 var audio = null;
-var adCount = 0;
+var adCount = null;
 
 $(window).on('load', function() {
   var currentURL = {
@@ -53,13 +53,15 @@ chrome.runtime.onMessage.addListener(function(request, sender, callback) {
     audio.volume = volume / 10.0;
     console.log('setting volume', volume);
   } else if (request.action == 'playpause') {
-    stopPlaying = !stopPlaying;
-    if (stopPlaying) {
-      audio.pause();
-      console.log('pausing');
-    } else {
-      audio.play();
-      console.log('playing');
+    if (audio) {
+      stopPlaying = !stopPlaying;
+      if (stopPlaying) {
+        audio.pause();
+        console.log('pausing');
+      } else {
+        audio.play();
+        console.log('playing');
+      }
     }
   }
   callback({
