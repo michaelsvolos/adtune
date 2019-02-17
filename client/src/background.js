@@ -1,4 +1,11 @@
-chrome.runtime.onInstalled.addListener(function() {});  // Triggers adding other listeners
+/*
+This file defines a background routine for the chrome extension,
+so that we can make normal HTTP requests from HTTPS webpages.
+This command is invoked by content.js
+ */
+
+// Triggers adding other listeners
+chrome.runtime.onInstalled.addListener(function() {});
 
 chrome.runtime.onMessage.addListener(function(request, sender, callback) {
   if (request.action == "xhttp") {
