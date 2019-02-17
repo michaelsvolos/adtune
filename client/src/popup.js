@@ -1,20 +1,57 @@
-/* File: popup.js
- * -----------------------
- * This javascript file restores settings when the DOM loads.
- * You shouldn't have to change this file unless you also
- * change the corresponding popup.html file.
- */
+var tabId = null;
+var isPlaying = false;
+var volume = 10;
 
-
-document.addEventListener('DOMContentLoaded', function () {
-    var links = document.getElementsByTagName("a");
-    for (var i = 0; i < links.length; i++) {
-        (function () {
-            var ln = links[i];
-            var location = ln.href;
-            ln.onclick = function () {
-                chrome.tabs.create({active: true, url: location});
-            };
-        })();
-    }
+chrome.tabs.query({
+  currentWindow: true,
+  active: true
+}, function(tabs) {
+  tabId = tabs[0].id;
 });
+
+$(document).ready(function() {
+  var btn = $(".button");
+  btn.click(function() {
+    btn.toggleClass("paused");
+
+    chrome.tabs.sendMessage(tabId, {
+      action: 'playpause',
+    }, function(data) {
+      isPlaying = data.isPlaying;
+      volume = data.volume;
+    });
+
+    return false;
+  });
+
+  chrome.tabs.sendMessage(tabId, {
+    action: '',
+  }, function(data) {
+    isPlaying = data.isPlaying;
+    volume = data.volume;
+
+    if (isPlaying) {
+      btn.toggleClass("paused");
+    }
+
+    var slider = document.getElementById("volume");
+    var volumeLabel = document.getElementById("volume-label");
+    slider.value = volume;
+    volumeLabel.innerText = volume;
+  });
+});
+
+var slider = document.getElementById("volume");
+var volumeLabel = document.getElementById("volume-label");
+slider.oninput = function() {
+  volumeLabel.innerText = this.value;
+
+  console.log('sending volume message', tabId);
+  chrome.tabs.sendMessage(tabId, {
+    action: 'volume',
+    volume: this.value,
+  }, function(data) {
+    isPlaying = data.isPlaying;
+    volume = data.volume;
+  });
+};

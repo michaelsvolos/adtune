@@ -28,6 +28,7 @@
   "homepage_url": "https://github.com/michaelsvolos/adtune",
 
   "permissions": [
+    "tabs",
     "http://104.40.74.37:5000/create_music/"
   ],
 
