@@ -77,7 +77,7 @@ def create_music():
             urls_to_check = get_urls_to_check(content['url'])
             count = count_ads(urls_to_check)
         except URLError:
-            count = 100000000
+            count = 1000000
     elif 'urls' in content:
         count = count_ads(content['urls'])
     else:
@@ -88,6 +88,8 @@ def create_music():
         'chuck/tune_gen:' + os.path.join(WAV_DIR, filename) + ':' + str(count),
         '--silent'
     ])
+    if count == 1000000:
+        count = 14
     return jsonify(filename=filename, count=count)
     # return send_file(filename, mimetype='audio/wav', as_attachment=True)
 
