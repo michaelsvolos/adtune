@@ -61,7 +61,7 @@ $(document).ready(function() {
 
     // Update ad-count label.  Default message if we don't have a count yet.
     var adCountLabel = document.getElementById('ad-count');
-    if (adCount) {
+    if (adCount !== null) {
       adCountLabel.innerText = 'number of ads on this page: ' + adCount;
     } else {
       adCountLabel.innerText = 'Interact with the page to load.';

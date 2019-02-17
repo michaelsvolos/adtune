@@ -1,9 +1,17 @@
 body {
-  font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+  font-family: sans-serif;
   font-size: 100%;
   position: relative;
   vertical-align: middle;
   background-size: 100% 100%;
   min-width: 300px;
   min-height: 300px;
+  color: #332349;
+}
+
+#title {
+  font-family: "Open Sans", sans-serif;
+  color: #ab47bc;
+  font-size: 43px;
+  margin: 5px;
 }

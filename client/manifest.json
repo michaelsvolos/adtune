@@ -28,7 +28,7 @@
   ],
 
   "browser_action": {
-    "default_icon": "icons/TreeHacks-white-19.png",
+    "default_icon": "icons/icon.png",
     "default_title": "Adtune",
     "default_popup": "src/popup.html"
   },

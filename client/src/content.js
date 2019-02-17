@@ -29,7 +29,7 @@ $(window).on('load', function() {
     // Chrome autoplay policy doesn't let us auto-play until then.
     $(window).click(function() {
       if (!audio) {
-        play(data.filename, true);
+        play(data.filename);
       }
     });
   });
